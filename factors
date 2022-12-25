@@ -1,36 +1,20 @@
 #!/usr/bin/python3
-from sys import argv
-import math
-"""Factorize as many numbers as possible into a product of 2 smaller nums"""
+import sys
 
+# Check if a file was provided
+if len(sys.argv) < 2:
+  print("Error: No file provided")
+  sys.exit(1)
 
-def factory(num):
-    """gets the factors of a number"""
-    if num % 2 == 0:
-        i = 2
-        print("{}={}*{}".format(num, int(num//i), i))
-    else:
-        sq = int(math.sqrt(num)) + 1
-        for i in range(3, sq, +2):
-            if num % i == 0:
-                print("{}={}*{}".format(num, int(num//i), i))
-                return
-            if num % (sq + i) == 0:
-                print("{}={}*{}".format(num, sq + i, int(num//(sq + i))))
-                return
-            if num % (sq - i) == 0:
-                print("{}={}*{}".format(num, sq - 1, int(num//(sq - i))))
-                return
-
-
-def factors(filename):
-    """read_file and prints them out"""
-
-    with open(filename, encoding="utf-8") as my_file:
-        for i in my_file.readlines():
-            n = int(i)
-            result = factory(n)
-
-
-if __name__ == "__main__":
-    factors(argv[1])
+# Open the file
+with open(sys.argv[1], 'r') as f:
+  # Read the file line by line
+  for line in f:
+    # Try to factorize the number
+    n = int(line.strip())
+    p = n // 2
+    while p >= 2:
+      q = n // p
+      if p * q == n:
+        print(f"{n}={p}*{q}")
+      p -= 1
